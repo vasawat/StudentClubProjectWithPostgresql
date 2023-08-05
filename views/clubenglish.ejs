@@ -1,0 +1,409 @@
+<%- include("header") %>
+<%- include("headerClub") %>
+<section class="clubSection">
+<div class="clubtable">
+<center>
+  <% let alluser = english.length; let allteacher = (englishTeacher.length)*5; %> 
+  <% if (alluser >= allteacher) { %>
+  <p class="textForTopicClub">ชมรมปิงปอง</p>
+  <p>นักเรียนในชมรม <%= alluser %> คน เต็ม <%= allteacher %> คน</p>
+  <p><img src="/images/united-kingdom2.png" width="150px" alt=""></p>
+  <p class="btn btn-secondary btn-lg">ชมรมปิงปองเต็มเเล้ว</p>
+  <% } %>
+  <% if (alluser < allteacher) { %>
+    <p class="textForTopicClub">ชมรมปิงปอง</p>
+    <p>นักเรียนในชมรม <%= alluser %> คน เต็ม <%= allteacher %> คน</p>
+    <p><img src="/images/united-kingdom2.png" width="150px" alt=""></p>
+    <button type="button" class="btn btn-primary clubAddBtn" data-bs-toggle="modal" data-bs-target="#addInfoModal">
+      สมัครเข้าชมรมนี้
+    </button>
+    <% } %>
+</center>
+<% if (loggedIn) { %>
+<center>
+  <button type="button" class="btn btn-success clubAddBtn" data-bs-toggle="modal" data-bs-target="#addInfoTeacherModal">
+    เพิ่มครูสำหรับชมรมนี้
+  </button>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          teacherName
+        </th>
+        <th>
+          teacherId
+        </th>
+        <th>
+          clubType
+        </th>
+        <th>
+          EditInfo
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let i = 0; i < englishTeacher.length; i++) { %>    
+        <% let number = i+1; %>
+          <tr>
+            <td>
+              ครู <%= englishTeacher[i].t_name%>  
+            </td>
+            <td>
+              <%= englishTeacher[i].t_id%> 
+            </td>
+            <td>
+              <%= englishTeacher[i].clubtype%>  
+            </td>
+            <td class="d-flex gap-2">
+              <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editInfoTeacherModal<%= number %>">Edit</button>
+  
+  <!-------------------------------------------- Editinfoteacher ----------------------------------------------------->
+  <form action="/edit/teacher" method="post">
+    <!-- Modal -->
+    <div class="modal fade" id="editInfoTeacherModal<%= number %>" tabindex="-1" aria-labelledby="editInfoTeacherModalLabel<%= number %>" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-dark" id="editInfoTeacherModalLabel<%= number %>">เปลี่ยนข้อมูลครู</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+  
+          <input type="hidden" name="sendidtoedit" value="<%= englishTeacher[i].t_id%>">
+  
+            <label for="studentName" class="text-dark clublabel">ชื่อ-นามสกุล:</label>
+            <input type="text" class="form-control" name="teacherName" value="<%= englishTeacher[i].t_name%>">
+  
+            <label for="studentId" class="text-dark clublabel">รหัสครู:</label>
+            <input type="text" class="form-control" name="teacherId" value="<%= englishTeacher[i].t_id %> ">
+  
+            <label for="clubType" class="text-dark clublabel">เลือกชมรม: <label class="text-danger" for="">*เลือกชมรมให้ถูกต้อง</label></label>
+            <select class="form-select" name="clubType" >
+              <option value="ฟุตบอล">ฟุตบอล</option>
+              <option value="บาสเกตบอล">บาสเกตบอล</option>
+              <option value="ปิงปอง">ปิงปอง</option>
+              <option value="ภาษาอังกฤษ">ภาษาอังกฤษ</option>
+              <option value="ภาษาญี่ปุ่น">ภาษาญี่ปุ่น</option>
+              <option value="ภาษาเกาหลี">ภาษาเกาหลี</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+      <!------------------------------------------------------------------------------------------------->
+
+        </form>
+        <form action="/delete/teacher" method="post">
+        <input type="hidden" name="sendid" value="<%= englishTeacher[i].t_id %>">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        </td>
+        </tr>
+        <% } %>  
+        </tbody>
+      </table>
+      </center>
+
+      <!--------  student  --------->
+
+    <center>
+      <table class="studentTable">
+       <thead>
+        <tr>
+          <th>
+            number
+          </th>
+          <th>
+            name
+          </th>
+          <th>
+            studentID
+          </th>
+          <th>
+            studentNumber
+          </th>
+          <th>
+            clubType
+          </th>
+          <th>
+            editInfo
+          </th>
+        </tr>
+       </thead>
+       <tbody>
+    <% for (let i = 0; i < english.length; i++) { %>    
+      <% let postgresNumber = i-1 %> 
+      <% let number = i+1; %>
+      <tr>
+        <td>
+          <%= number %>
+        </td>
+          <td>
+            <%= english[i].std_name %>  
+          </td>
+          <td>
+            <%= english[i].std_id %> 
+          </td>
+          <td>
+            <%= english[i].std_number %> 
+          </td>
+          <td>
+            <%= english[i].clubtype %>  
+          </td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editInfoModal<%= number %>">Edit</button>
+            
+              
+
+<!-------------------------------------------- Editinfostudent ----------------------------------------------------->
+<form action="/edit/student" method="post">
+  <div class="modal fade" id="editInfoModal<%= number %>" tabindex="-1" aria-labelledby="editInfoModalLabel<%= number %>" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="editInfoModalLabel<%= number %>">เปลี่ยนข้อมูลเลือกชมรม</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+        <input type="hidden" name="sendidtoedit" value="<%= english[i].std_id %>">
+
+          <label for="studentName" class="text-dark clublabel">ชื่อ-นามสกุล:</label>
+          <input type="text" class="form-control" name="studentName" value="<%= english[i].std_name%>">
+
+          <label for="studentId" class="text-dark clublabel">รหัสนักเรียน:</label>
+          <input type="text" class="form-control" name="studentId" value="<%= english[i].std_id  %> ">
+
+          <label for="studentNumber" class="text-dark clublabel">เลขที่นักเรียน:</label>
+          <input type="text" class="form-control" name="studentNumber" value="<%= english[i].std_number  %>">
+
+          <label for="clubType" class="text-dark clublabel">เลือกชมรม: <label class="text-danger" for="">*เลือกชมรมให้ถูกต้อง</label></label>
+          <select class="form-select" name="clubType" >
+            <option value="ฟุตบอล">ฟุตบอล</option>
+            <option value="บาสเกตบอล">บาสเกตบอล</option>
+            <option value="ปิงปอง">ปิงปอง</option>
+            <option value="ภาษาอังกฤษ">ภาษาอังกฤษ</option>
+            <option value="ภาษาญี่ปุ่น">ภาษาญี่ปุ่น</option>
+            <option value="ภาษาเกาหลี">ภาษาเกาหลี</option>
+          </select>
+        
+            <label for="classselect" class="text-dark clublabel">ระดับชั้นที่ต้องการสมัคร:</label>
+            <select class="form-select" name="classselect" >
+              <option value="มัธยมศึกษาปีที่1">มัธยมศึกษาปีที่1</option>
+              <option value="มัธยมศึกษาปีที่2">มัธยมศึกษาปีที่2</option>
+              <option value="มัธยมศึกษาปีที่3">มัธยมศึกษาปีที่3</option>
+              <option value="มัธยมศึกษาปีที่4">มัธยมศึกษาปีที่4</option>
+              <option value="มัธยมศึกษาปีที่5">มัธยมศึกษาปีที่5</option>
+              <option value="มัธยมศึกษาปีที่6">มัธยมศึกษาปีที่6</option>
+            </select>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-------------------------------------------- ----------------------------------------------------->
+
+  </form>
+  <form action="/delete/student" method="post">
+    <input type="hidden" name="sendid" value="<%= english[i].std_id %>">
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+  </td>
+  </tr>
+
+  <% } %> 
+
+    </tbody>
+   </table>
+  </center>
+
+  <% } %>
+
+
+
+  <% if (!loggedIn) { %>
+    <center>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              number
+            </th>
+            <th>
+              teacherName
+            </th>
+            <th>
+              id
+            </th>
+            <th>
+              clubType
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i = 0; i < englishTeacher.length; i++) { %>    
+            <% let number = i+1; %>
+              <tr>
+                <td>
+                  <%= number %>
+                </td>
+                  <td>
+                    <%= englishTeacher[i].t_name %>  
+                  </td>
+                  <td>
+                    <%= englishTeacher[i].t_id %> 
+                  </td>
+                  <td>
+                    <%= englishTeacher[i].clubtype %>  
+                  </td>
+              </tr>
+                  <% } %> 
+        </tbody>
+      </table>
+      </center>
+  <center>
+  <table class="studentTable">
+   <thead>
+    <tr>
+      <th>
+        ลำดับ
+      </th>
+      <th>
+        ชื่อนักเรียน
+      </th>
+      <th>
+        รหัสนักเรียน
+      </th>
+      <th>
+        เลขที่นักเรียน
+      </th>
+      <th>
+        ชมรม
+      </th>
+    </tr>
+   </thead>
+   <tbody>
+<% for (let i = 0; i < english.length; i++) { %>    
+  <% let number = i+1; %>
+    <tr>
+      <td>
+        <%= number %>
+      </td>
+        <td>
+          <%= english[i].std_name %>  
+        </td>
+        <td>
+               <%= english[i].std_id %> 
+        </td>
+        <td>
+           <%= english[i].std_number %> 
+        </td>
+        <td>
+              <%= english[i].clubtype %>  
+        </td>
+    </tr>
+        <% } %> 
+    </tbody>
+  </table>
+</center>
+
+ <% } %>
+
+</div>
+</section>
+
+<!-------------------------------------------- Addinfo ----------------------------------------------------->
+
+<form action="/store/student" method="POST">
+  <div class="modal fade" id="addInfoModal" tabindex="-1" aria-labelledby="addInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="addInfoModalLabel">กรอกข้อมูลเลือกชมรม</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <label for="studentName" class="text-dark clublabel">ชื่อ-นามสกุล:</label>
+          <input type="text" class="form-control" name="studentName">
+
+          <label for="studentId" class="text-dark clublabel">รหัสนักเรียน:</label>
+          <input type="text" class="form-control" name="studentId">
+
+          <label for="studentNumber" class="text-dark clublabel">เลขที่นักเรียน:</label>
+          <input type="text" class="form-control" name="studentNumber">
+
+          <label for="clubType" class="text-dark clublabel">เลือกชมรม: </label>
+          <input class="form-control" type="text" value="ปิงปอง" name="clubType" readonly="true">
+        
+            <label for="classselect" class="text-dark clublabel">ระดับชั้นที่ต้องการสมัคร:</label>
+            <select class="form-select" name="classselect" id="">
+              <option value="มัธยมศึกษาปีที่1">มัธยมศึกษาปีที่1</option>
+              <option value="มัธยมศึกษาปีที่2">มัธยมศึกษาปีที่2</option>
+              <option value="มัธยมศึกษาปีที่3">มัธยมศึกษาปีที่3</option>
+              <option value="มัธยมศึกษาปีที่4">มัธยมศึกษาปีที่4</option>
+              <option value="มัธยมศึกษาปีที่5">มัธยมศึกษาปีที่5</option>
+              <option value="มัธยมศึกษาปีที่6">มัธยมศึกษาปีที่6</option>
+            </select>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<!-------------------------------------------- ----------------------------------------------------->
+<!-------------------------------------------- Addinfo ----------------------------------------------------->
+
+<form action="/store/teacher" method="POST">
+
+  <!-- Modal -->
+  <div class="modal fade" id="addInfoTeacherModal" tabindex="-1" aria-labelledby="addInfoTeacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="addInfoTeacherModalLabel">กรอกข้อมูลครู</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+
+          <label for="teacherName" class="text-dark clublabel">ชื่อ-นามสกุล:</label>
+          <input type="text" class="form-control" name="t_name">
+
+          <label for="teacherId" class="text-dark clublabel">รหัสครู:</label>
+          <input type="text" class="form-control" name="t_id">
+
+          <label for="clubType" class="text-dark clublabel">เลือกชมรม: </label>
+          <input class="form-control" type="text" value="ปิงปอง" name="clubType" readonly="true">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<!-------------------------------------------- ----------------------------------------------------->
+<%- include("footer") %>

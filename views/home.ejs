@@ -1,0 +1,63 @@
+<%- include("header") %>
+<section class="homePageSection">
+<div class="main row">
+  <div class="col-lg-5 col-md-0 col-sm-12">
+
+  <center>
+    <h2>เลือกชมรมปี 2566</h2>
+    <p>สำหรับนักเรียนที่สนใจสมัครเข้าชมรม<br>
+    คลิกที่ลิงค์ด้านล่าง</p>
+    <a href="/clubPage" class="btn btn-primary clubbtn">เลือกชมรม</a>  
+</center>
+  </div>
+
+  <div class="col-lg-5 col-md-0 col-sm-12">
+    <img src="../images/part2.png" width="550px" alt="">
+  </div>
+</div>
+</section>
+
+
+<form action="/store/student" method="POST">
+  <div class="modal fade" id="addInfoModal" tabindex="-1" aria-labelledby="addInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="addInfoModalLabel">กรอกข้อมูลเลือกชมรม</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <label for="studentName" class="text-dark clublabel">ชื่อ-นามสกุล:</label>
+          <input type="text" class="form-control" name="studentName">
+
+          <label for="studentId" class="text-dark clublabel">รหัสนักเรียน:</label>
+          <input type="text" class="form-control" name="studentId">
+
+          <label for="studentNumber" class="text-dark clublabel">เลขที่นักเรียน:</label>
+          <input type="text" class="form-control" name="studentNumber">
+
+          <label for="clubType" class="text-dark clublabel">เลือกชมรม: </label>
+          <input class="form-control" type="text" value="ฟุตบอล" name="clubType" readonly="true">
+        
+            <label for="classselect" class="text-dark clublabel">ระดับชั้นที่ต้องการสมัคร:</label>
+            <select class="form-select" name="classselect" id="">
+              <option value="มัธยมศึกษาปีที่1">มัธยมศึกษาปีที่1</option>
+              <option value="มัธยมศึกษาปีที่2">มัธยมศึกษาปีที่2</option>
+              <option value="มัธยมศึกษาปีที่3">มัธยมศึกษาปีที่3</option>
+              <option value="มัธยมศึกษาปีที่4">มัธยมศึกษาปีที่4</option>
+              <option value="มัธยมศึกษาปีที่5">มัธยมศึกษาปีที่5</option>
+              <option value="มัธยมศึกษาปีที่6">มัธยมศึกษาปีที่6</option>
+            </select>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+<%- include("footer") %>
